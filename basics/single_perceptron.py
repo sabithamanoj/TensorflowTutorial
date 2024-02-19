@@ -36,7 +36,6 @@ def main():
     logging.info('weight : {}, bias : {}'.format(w, b))
     linear_model = w*x + b
 
-
     # Initialize variables
     init = tf.compat.v1.global_variables_initializer()
     ssn = tf.compat.v1.Session()
@@ -46,6 +45,12 @@ def main():
     logging.info('Predicted output is:')
     logging.info(ssn.run(linear_model, {x:[1, 2, 3, 4]}))
 
+    # Desired output
+    y = tf.compat.v1.placeholder(tf.float32)
+    squared_deltas = tf.square(linear_model - y)
+    loss = tf.reduce_sum(squared_deltas)
+    logging.info('Loss is:')
+    logging.info(ssn.run(loss, {x: [1, 2, 3, 4], y : [0, -1, -2, -3]}))
 
 
 if __name__ == '__main__':
